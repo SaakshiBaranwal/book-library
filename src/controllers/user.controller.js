@@ -1,7 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from '../utils/apiError.js'
-import { Book } from '../models/book.model.js'
-// import uploadOnCloudinary from '../utils/cloudinary.js'
 import { apiResponse } from "../utils/apiResponse.js";
 import { User } from "../models/user.model.js";
 
@@ -231,10 +229,13 @@ const registerUser = asyncHandler( async(req, res) => {
     //return response
 
 
-    const {username, password} = req.body
+    const {username, role, password} = req.body
     
     if(!username ) {
         throw new apiError(400, "Username is required")
+    }
+    if(!role ) {
+        throw new apiError(400, "Role is required")
     }
     if(!password ) {
         throw new apiError(400, "Password is required")
@@ -253,6 +254,7 @@ const registerUser = asyncHandler( async(req, res) => {
 
     const user = await User.create({
         username,
+        role,
         password,
     })
 
